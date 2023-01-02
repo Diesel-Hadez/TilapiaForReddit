@@ -1,0 +1,13 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+	<qresource prefix="/">
+		<file alias="main.qml">contents/ui/main.qml</file>	
+		<file alias="HomePage.qml">contents/ui/HomePage.qml</file>	
+		<file alias="Page.qml">contents/ui/Page.qml</file>	
+	</qresource>
+
+	<qresource prefix="/assets/images">
+		<file alias="left-align.png">contents/assets/images/left-align.png</file>	
+		<file alias="plus-18-movie.png">contents/assets/images/plus-18-movie.png</file>	
+	</qresource>
+</RCC>
