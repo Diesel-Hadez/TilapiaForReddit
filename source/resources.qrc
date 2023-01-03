@@ -4,6 +4,10 @@
 		<file alias="main.qml">contents/ui/main.qml</file>	
 		<file alias="HomePage.qml">contents/ui/HomePage.qml</file>	
 		<file alias="Page.qml">contents/ui/Page.qml</file>	
+		
+		<file alias="Comments.qml">contents/ui/Comments.qml</file>	
+		<file alias="CustomAbstractTreeItem.qml">contents/ui/CustomAbstractTreeItem.qml</file>	
+		<file alias="CustomTreeViewDecoration.qml">contents/ui/CustomTreeViewDecoration.qml</file>	
 	</qresource>
 
 	<qresource prefix="/assets/images">
