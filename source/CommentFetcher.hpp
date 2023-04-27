@@ -25,6 +25,7 @@ public:
   {
     Q_UNUSED(jsEngine)
     CommentFetcher* instance = &Instance();
+    instance->m_QmlEngine = qmlEngine;
     qmlEngine->setObjectOwnership(instance, QQmlEngine::CppOwnership);
     return instance;
   }
@@ -34,6 +35,9 @@ protected:
       : QObject(parent)
   {
   }
+
+private:
+  QQmlEngine* m_QmlEngine;
 };
 
 #endif
