@@ -9,6 +9,8 @@ import org.kde.kirigami 2.13 as Kirigami
 import org.kde.kitemmodels 1.0 
 import org.kde.kirigamiaddons.treeview 1.0 as TreeView
 
+import b1temy.reddit.fetcher 1.0
+
 /**
  * An item delegate for the TreeListView and TreeTableView components.
  *
@@ -88,6 +90,11 @@ QQC2.ItemDelegate {
                    (delegate.TableView.view ? delegate.TableView.view.descendantsModel : null)
         }
     ]
+
+    Keys.onDeletePressed: {
+            console.log("Delete pressed!");
+            CommentFetcher.GetComments();
+        }
 
     Keys.onLeftPressed: if (kDescendantExpandable && kDescendantExpanded) {
         decoration.model.collapseChildren(index);

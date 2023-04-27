@@ -50,7 +50,7 @@ target_compile_features(tilapia_for_reddit_lib PUBLIC cxx_std_17)
 
 # ---- Declare executable ----
 
-add_executable(tilapia_for_reddit_exe source/main.cpp source/CommentItem.cpp source/CommentItem.hpp source/CommentTreeModel.cpp source/CommentTreeModel.hpp source/resources.qrc)
+add_executable(tilapia_for_reddit_exe source/main.cpp source/CommentItem.cpp source/CommentItem.hpp source/CommentTreeModel.cpp source/CommentTreeModel.hpp source/CommentFetcher.hpp source/CommentFetcher.cpp source/resources.qrc)
 add_executable(tilapia_for_reddit::exe ALIAS tilapia_for_reddit_exe)
 
 set_property(TARGET tilapia_for_reddit_exe PROPERTY OUTPUT_NAME tilapia_for_reddit)
