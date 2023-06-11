@@ -66,6 +66,7 @@ Kirigami.ScrollablePage {
                         id: postText
 
                         textFormat: Text.MarkdownText
+                        width: card.width
                         Layout.preferredWidth: card.width
                         Layout.topMargin: Kirigami.Units.smallSpacing
                         Layout.bottomMargin: Kirigami.Units.smallSpacing
