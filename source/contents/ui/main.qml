@@ -2,12 +2,15 @@ import QtQuick 2.15
 import QtQuick.Controls 2.0 as Controls
 import QtQuick.Layouts 1.2
 import QtQuick.LocalStorage 2.15
-import org.kde.kirigami 2.4 as Kirigami
+import org.kde.kirigami 2.20 as Kirigami
 
 // Base element, provides basic features needed for all kirigami applications
 Kirigami.ApplicationWindow {
     // ID provides unique identifier to reference this element
     id: root
+
+    property string sort_period: "year"
+    property string current_page: "/r/all"
 
     function getDb() {
         let db = LocalStorage.openDatabaseSync("DirtedDB", "0.1", "Local storage database for miscellaneous data.", 1e+06);
@@ -27,7 +30,7 @@ Kirigami.ApplicationWindow {
 
     function refreshSubList() {
         let db = getDb();
-        globalDrawer.actions.length = 0;
+        globalDrawer.actions.length = 1;
         db.transaction(function(tx) {
             tx.executeSql("CREATE TABLE IF NOT EXISTS SubList(name TEXT NOT NULL PRIMARY KEY)");
             let results = tx.executeSql("SELECT name FROM SubList");
@@ -72,7 +75,7 @@ Kirigami.ApplicationWindow {
                 });
             }
         };
-        doc.open("GET", "http://www.reddit.com" + page + "/top.json?limit=10&t=year");
+        doc.open("GET", "http://www.reddit.com" + page + "/top.json?limit=10&t=" + sort_period);
         doc.send();
     }
 
@@ -80,11 +83,49 @@ Kirigami.ApplicationWindow {
     // i18nc is useful for adding context for translators, also lets strings be changed for different languages
     title: i18nc("@title:window", "Dirted")
     Component.onCompleted: {
-        goToPage('/r/all');
+        current_page = '/r/all';
+        goToPage(current_page);
     }
 
     ListModel {
         id: myModel
+    }
+      Kirigami.Dialog {
+        id: selectDialog
+        title: qsTr("Top of ")
+        preferredWidth: Kirigami.Units.gridUnit * 16
+
+        ColumnLayout {
+            spacing: 0
+            Repeater {
+                model: ListModel {
+                    // we can't use qsTr/i18n with ListElement
+                    Component.onCompleted: {
+                        append({"name": qsTr("hour"), "value": "hour"});
+                        append({"name": qsTr("day"), "value": "day"});
+                        append({"name": qsTr("week"), "value": "week"});
+                        append({"name": qsTr("month"), "value": "month"});
+                        append({"name": qsTr("year"), "value": "year"});
+                        append({"name": qsTr("all"), "value": "all"});
+                    }
+                }
+                delegate: Controls.RadioDelegate {
+                    Layout.fillWidth: true
+                    topPadding: Kirigami.Units.smallSpacing * 2
+                    bottomPadding: Kirigami.Units.smallSpacing * 2
+
+                    text: name
+                    checked: value == 1
+                    onCheckedChanged: {
+                        if (checked) {
+                            sort_period = value;
+                            goToPage(current_page);
+                            showPassiveNotification("Selected Sort by Top of " + name + "!");
+                        }
+                    }
+                }
+            }
+        }
     }
 
     globalDrawer: Kirigami.GlobalDrawer {
@@ -96,8 +137,12 @@ Kirigami.ApplicationWindow {
         isMenu: false
         actions: [
             Kirigami.Action {
-                icon.name: "search"
-                text: "/r/python"
+                text: i18n("Sort")
+                onTriggered: {
+                    sort_period = "day";
+                    selectDialog.open();
+                    goToPage(current_page);
+                }
             }
         ]
 
