@@ -11,6 +11,7 @@ Kirigami.ApplicationWindow {
 
     property string sort_period: "year"
     property string current_page: "/r/all"
+    property string last_post_name: ""
 
     function getDb() {
         let db = LocalStorage.openDatabaseSync("DirtedDB", "0.1", "Local storage database for miscellaneous data.", 1e+06);
@@ -30,7 +31,7 @@ Kirigami.ApplicationWindow {
 
     function refreshSubList() {
         let db = getDb();
-        globalDrawer.actions.length = 1;
+        globalDrawer.actions.length = 2;
         db.transaction(function(tx) {
             tx.executeSql("CREATE TABLE IF NOT EXISTS SubList(name TEXT NOT NULL PRIMARY KEY)");
             let results = tx.executeSql("SELECT name FROM SubList");
@@ -48,8 +49,10 @@ Kirigami.ApplicationWindow {
         });
     }
 
-    function goToPage(page) {
-        myModel.clear();
+    function goToPage(page, clear=true) {
+        if (clear) {
+            myModel.clear();
+        }
         page = page[0] == '/' ? page : ('/' + page);
         var doc = new XMLHttpRequest();
         doc.onreadystatechange = function() {
@@ -71,11 +74,12 @@ Kirigami.ApplicationWindow {
                         "postSubreddit": data.data.subreddit_name_prefixed,
 						"over_18": data.data.over_18,
                     });
+                    last_post_name = data.data.name;
                     console.log(data.data.title);
                 });
             }
         };
-        doc.open("GET", "http://www.reddit.com" + page + "/top.json?limit=10&t=" + sort_period);
+        doc.open("GET", "http://www.reddit.com" + page + "/top.json?limit=10&t=" + sort_period + "&after=" + last_post_name);
         doc.send();
     }
 
@@ -142,6 +146,12 @@ Kirigami.ApplicationWindow {
                     sort_period = "day";
                     selectDialog.open();
                     goToPage(current_page);
+                }
+            },
+            Kirigami.Action {
+                text: i18n("Load More Pages")
+                onTriggered: {
+                    goToPage(current_page, false);
                 }
             }
         ]

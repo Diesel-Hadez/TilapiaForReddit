@@ -10,7 +10,6 @@
 void CommentFetcher::GetComments(QString url)
 {
   qDebug() << "Fetching Comments...\n";
-  static CommentTreeModel* ctm = nullptr;
   if (ctm)
     delete ctm;
   ctm = new CommentTreeModel("");

@@ -38,6 +38,7 @@ protected:
 
 private:
   QQmlEngine* m_QmlEngine;
+  CommentTreeModel* ctm;
 };
 
 #endif
