@@ -81,17 +81,6 @@ CommentTreeModel::CommentTreeModel(const QString& data, QObject* parent)
 {
   qInfo() << "Creating root item\n";
   m_RootItem = new CommentItem({tr("CommentsRoot")});
-
-  CommentItem* one = new CommentItem({tr("Hello World!")}, m_RootItem);
-  CommentItem* two = new CommentItem({tr("Goodbye World!")}, m_RootItem);
-
-  m_RootItem->appendChild(one);
-  one->appendChild(new CommentItem({tr("Child One of Hello World!")}, one));
-  one->appendChild(new CommentItem({tr("Child Two of Hello World!")}, one));
-  m_RootItem->appendChild(two);
-  two->appendChild(new CommentItem({tr("Child One of Goodbye World!")}, two));
-  two->appendChild(new CommentItem({tr("Child Two of Goodbye World!")}, two));
-  two->appendChild(new CommentItem({tr("Child Three of Goodbye World!")}, two));
 }
 
 CommentTreeModel::~CommentTreeModel()
