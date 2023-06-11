@@ -47,7 +47,7 @@ Kirigami.ScrollablePage {
                 implicitWidth: postColLayout.implicitWidth
                 implicitHeight: postColLayout.implicitHeight
 
-                ColumnLayout {
+                Column{
                     id: postColLayout
 
                     Image {
@@ -57,7 +57,7 @@ Kirigami.ScrollablePage {
                         Layout.topMargin: Kirigami.Units.smallSpacing
                         Layout.bottomMargin: Kirigami.Units.smallSpacing
                         Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                        Layout.preferredWidth: card.width
+                        width: card.width
                         fillMode: Image.PreserveAspectFit
                         source: postURL
                     }

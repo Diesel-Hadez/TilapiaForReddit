@@ -22,6 +22,8 @@ Controls.ScrollView
         delegate: CustomAbstractTreeItem {
             id: listItem
             contentItem: Text {                            
+                width: root.commentsWidth
+                wrapMode: Text.Wrap
                 text: model.body
             }
         }
