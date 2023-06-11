@@ -7,10 +7,15 @@
 
 #include "CommentTreeModel.hpp"
 
-void CommentFetcher::GetComments()
+void CommentFetcher::GetComments(QString url)
 {
   qDebug() << "Fetching Comments...\n";
-  static CommentTreeModel ctm("");
+  static CommentTreeModel* ctm = nullptr;
+  if (ctm)
+    delete ctm;
+  ctm = new CommentTreeModel("");
+
+  ctm->LoadFromCommentsURL(url);
   m_QmlEngine->rootContext()->setContextProperty("_m",
-                                                 QVariant::fromValue(&ctm));
+                                                 QVariant::fromValue(ctm));
 }

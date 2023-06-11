@@ -121,7 +121,8 @@ Kirigami.ScrollablePage {
                                     "postSubreddit": postSubreddit,
                                     "postSelfText": postSelfText,
                                     "postHint": postHint,
-                                    "postURL": postURL
+                                    "postURL": postURL,
+                                    "postPermalink": postPermalink
                                 });
                             }
                         }

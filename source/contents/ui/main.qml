@@ -52,7 +52,7 @@ Kirigami.ApplicationWindow {
         doc.onreadystatechange = function() {
             if (doc.readyState == XMLHttpRequest.DONE) {
                 addSubToHistory(page);
-                var resp = JSON.parse(doc.responseText);
+                let resp = JSON.parse(doc.responseText);
                 console.log(resp.data.children[0].data.title);
                 resp.data.children.forEach((data, index, arr) => {
                     myModel.append({
@@ -63,6 +63,7 @@ Kirigami.ApplicationWindow {
                         "postNumComments": data.data.num_comments,
                         "postAuthor": data.data.author,
                         "postURL": data.data.url_overridden_by_dest,
+                        "postPermalink": data.data.permalink,
                         "postHint": data.data.post_hint,
                         "postSubreddit": data.data.subreddit_name_prefixed,
 						"over_18": data.data.over_18,

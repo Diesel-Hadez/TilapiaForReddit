@@ -13,7 +13,7 @@ private:
   QML_SINGLETON
 
 public:
-  Q_INVOKABLE void GetComments();
+  Q_INVOKABLE void GetComments(QString url);
 
   static CommentFetcher& Instance()
   {

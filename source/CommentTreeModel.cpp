@@ -10,51 +10,81 @@
 #include <qnetworkreply.h>
 
 #include "CommentItem.hpp"
+namespace
+{
+void PopulateComments(QJsonArray& comments, CommentItem* parent)
+{
+  for (const auto& topLevelComment : comments) {
+    const auto kind = topLevelComment.toObject().value("kind").toString();
+    if (kind.startsWith("more")) {
+      parent->appendChild(
+          new CommentItem({"< More Comments Truncated >"}, parent));
+      continue;
+    }
+    const auto message = topLevelComment.toObject()
+                             .value("data")
+                             .toObject()
+                             .value("body")
+                             .toString();
+    CommentItem* toAdd = new CommentItem({message}, parent);
+    QJsonArray arr = topLevelComment.toObject()
+                         .value("data")
+                         .toObject()
+                         .value("replies")
+                         .toObject()
+                         .value("data")
+                         .toObject()
+                         .value("children")
+                         .toArray();
+
+    PopulateComments(arr, toAdd);
+    parent->appendChild(toAdd);
+  }
+}
+}  // namespace
+
+void CommentTreeModel::LoadFromCommentsURL(QString url)
+{
+  QObject::connect(tempNAM.get(),
+                   &QNetworkAccessManager::finished,
+                   this,
+                   [&](QNetworkReply* reply)
+                   {
+                     qDebug() << "GOT REPLY\n";
+                     if (reply->error()) {
+                       qDebug() << reply->errorString();
+                       return;
+                     }
+
+                     QByteArray answer = reply->readAll();
+                     QJsonDocument response = QJsonDocument::fromJson(answer);
+                     QJsonArray topLevelComments = response.array()
+                                                       .at(1)
+                                                       .toObject()
+                                                       .value("data")
+                                                       .toObject()
+                                                       .value("children")
+                                                       .toArray();
+                     beginResetModel();
+
+                     PopulateComments(topLevelComments, m_RootItem);
+                     endResetModel();
+                   });
+  request.setUrl(QUrl(url));
+  request.setRawHeader("User-Agent", "TilapiaForReddit 1.0");
+  tempNAM->get(request);
+}
 
 CommentTreeModel::CommentTreeModel(const QString& data, QObject* parent)
     : QAbstractItemModel(parent)
     , tempNAM(new QNetworkAccessManager())
 {
   qInfo() << "Creating root item\n";
-  QObject::connect(
-      tempNAM.get(),
-      &QNetworkAccessManager::finished,
-      this,
-      [&](QNetworkReply* reply)
-      {
-        qDebug() << "GOT REPLY\n";
-        if (reply->error()) {
-          qDebug() << reply->errorString();
-          return;
-        }
-
-        QByteArray answer = reply->readAll();
-        QJsonDocument response = QJsonDocument::fromJson(answer);
-        auto topLevelComments = response.array()
-                                    .at(1)
-                                    .toObject()
-                                    .value("data")
-                                    .toObject()
-                                    .value("children")
-                                    .toArray();
-
-        for (const auto& topLevelComment : topLevelComments) {
-          const auto message = topLevelComment.toObject()
-                                   .value("data")
-                                   .toObject()
-                                   .value("body")
-                                   .toString();
-          // qDebug() << comment;
-          m_RootItem->appendChild(new CommentItem({message}, m_RootItem));
-        }
-      });
   m_RootItem = new CommentItem({tr("CommentsRoot")});
-  request.setUrl(
-      QUrl("https://www.reddit.com/r/Python/comments/1434dxo/top.json"));
-  request.setRawHeader("User-Agent", "TilapiaForReddit 1.0");
 
   CommentItem* one = new CommentItem({tr("Hello World!")}, m_RootItem);
   CommentItem* two = new CommentItem({tr("Goodbye World!")}, m_RootItem);
+
   m_RootItem->appendChild(one);
   one->appendChild(new CommentItem({tr("Child One of Hello World!")}, one));
   one->appendChild(new CommentItem({tr("Child Two of Hello World!")}, one));
@@ -62,8 +92,6 @@ CommentTreeModel::CommentTreeModel(const QString& data, QObject* parent)
   two->appendChild(new CommentItem({tr("Child One of Goodbye World!")}, two));
   two->appendChild(new CommentItem({tr("Child Two of Goodbye World!")}, two));
   two->appendChild(new CommentItem({tr("Child Three of Goodbye World!")}, two));
-
-  tempNAM->get(request);
 }
 
 CommentTreeModel::~CommentTreeModel()

@@ -91,11 +91,6 @@ QQC2.ItemDelegate {
         }
     ]
 
-    Keys.onDeletePressed: {
-            console.log("Delete pressed!");
-            CommentFetcher.GetComments();
-        }
-
     Keys.onLeftPressed: if (kDescendantExpandable && kDescendantExpanded) {
         decoration.model.collapseChildren(index);
     } else if (!kDescendantExpandable && kDescendantLevel > 0) {

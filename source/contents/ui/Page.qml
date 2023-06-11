@@ -2,6 +2,7 @@ import QtQuick 2.6
 import QtQuick.Controls 2.2 as Controls
 import QtQuick.Layouts 1.2
 import org.kde.kirigami 2.4 as Kirigami
+import b1temy.reddit.fetcher 1.0
 
 
 Kirigami.ScrollablePage {
@@ -11,6 +12,7 @@ Kirigami.ScrollablePage {
     property string postSubreddit
     property string postHint
     property string postURL
+    property string postPermalink
     property string postSelfText
 
     postTitle: "Default Title"
@@ -18,7 +20,14 @@ Kirigami.ScrollablePage {
     postSelfText: "Default Post content"
     postHint: ""
     postURL: ""
+    postPermalink: ""
     title: postSubreddit
+    Component.onCompleted: {
+        let a = postPermalink;
+        a = a.substr(0,a.slice(0,-1).lastIndexOf('/')) + "/top.json";
+        a = 'https://www.reddit.com' + a;
+        CommentFetcher.GetComments(a);
+    }
 
     ColumnLayout {
         Kirigami.AbstractCard {

@@ -30,6 +30,8 @@ public:
   int rowCount(const QModelIndex& parent = QModelIndex()) const override;
   int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 
+  void LoadFromCommentsURL(QString url);
+
 private:
   CommentItem* m_RootItem;
   QNetworkRequest request;
