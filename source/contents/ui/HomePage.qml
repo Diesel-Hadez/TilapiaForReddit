@@ -7,6 +7,8 @@ import org.kde.kirigami 2.4 as Kirigami
 Kirigami.ScrollablePage {
         id: page
 
+        property bool censor_nsfw: true
+
         title: qsTr("Dirted")
         //Close the drawer with the back button
         onBackRequested: {
@@ -14,6 +16,18 @@ Kirigami.ScrollablePage {
                 event.accepted = true;
                 sheet.close();
             }
+        }
+        Component.onCompleted: {
+            let db = LocalStorage.openDatabaseSync("DirtedDB", "0.1", "Local storage database for miscellaneous data.", 1e+06);
+            db.transaction((tx) => {
+                    tx.executeSql("CREATE TABLE IF NOT EXISTS UserPref(name TEXT NOT NULL PRIMARY KEY, enabled INTEGER NOT NULL)");
+                    let results = tx.executeSql("SELECT enabled FROM UserPref WHERE name='censor_nsfw'");
+                    if (results.rows.length > 0){
+                        censor_nsfw = results.rows.item(0).enabled;
+                    }
+
+                });
+
         }
 
         Kirigami.CardsListView {
@@ -47,7 +61,7 @@ Kirigami.ScrollablePage {
 
                         Image {
                             source: {
-                                if (over_18 || postThumbnail == "nsfw")
+                                if (!censor_nsfw && (over_18 || postThumbnail == "nsfw"))
                                     return "../assets/images/plus-18-movie.png";
                                 else if (postThumbnail == "self" || postThumbnail == "default")
                                     return "../assets/images/left-align.png";
