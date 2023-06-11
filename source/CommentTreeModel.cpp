@@ -3,6 +3,9 @@
 #include "CommentTreeModel.hpp"
 
 #include <qeventloop.h>
+#include <qjsonarray.h>
+#include <qjsondocument.h>
+#include <qjsonobject.h>
 #include <qnetworkaccessmanager.h>
 #include <qnetworkreply.h>
 
@@ -25,13 +28,29 @@ CommentTreeModel::CommentTreeModel(const QString& data, QObject* parent)
           return;
         }
 
-        QString answer = reply->readAll();
-        m_RootItem->appendChild(new CommentItem({answer}, m_RootItem));
+        QByteArray answer = reply->readAll();
+        QJsonDocument response = QJsonDocument::fromJson(answer);
+        auto topLevelComments = response.array()
+                                    .at(1)
+                                    .toObject()
+                                    .value("data")
+                                    .toObject()
+                                    .value("children")
+                                    .toArray();
 
-        qDebug() << answer;
+        for (const auto& topLevelComment : topLevelComments) {
+          const auto message = topLevelComment.toObject()
+                                   .value("data")
+                                   .toObject()
+                                   .value("body")
+                                   .toString();
+          // qDebug() << comment;
+          m_RootItem->appendChild(new CommentItem({message}, m_RootItem));
+        }
       });
   m_RootItem = new CommentItem({tr("CommentsRoot")});
-  request.setUrl(QUrl("https://loripsum.net/api/1/short/plaintext/"));
+  request.setUrl(
+      QUrl("https://www.reddit.com/r/Python/comments/1434dxo/top.json"));
   request.setRawHeader("User-Agent", "TilapiaForReddit 1.0");
 
   CommentItem* one = new CommentItem({tr("Hello World!")}, m_RootItem);
