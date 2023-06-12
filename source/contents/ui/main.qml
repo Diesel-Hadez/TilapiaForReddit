@@ -52,6 +52,7 @@ Kirigami.ApplicationWindow {
     function goToPage(page, clear=true) {
         if (clear) {
             myModel.clear();
+            last_post_name = "";
         }
         page = page[0] == '/' ? page : ('/' + page);
         var doc = new XMLHttpRequest();
