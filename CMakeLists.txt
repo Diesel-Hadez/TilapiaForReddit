@@ -66,7 +66,7 @@ target_compile_features(tilapia_for_reddit_exe PRIVATE cxx_std_17)
 target_link_libraries(tilapia_for_reddit_exe tilapia_for_reddit_lib Qt5::Quick Qt5::Qml Qt5::Gui Qt5::QuickControls2 Qt5::Widgets KF5::Kirigami2)
 if (ANDROID)
     target_link_libraries(tilapia_for_reddit_exe Qt5::AndroidExtras)
-
+    include(${CMAKE_CURRENT_SOURCE_DIR}/../android_openssl/CMakeLists.txt)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/source/android/version.gradle.in ${CMAKE_BINARY_DIR}/version.gradle)
 endif()
 
