@@ -69,8 +69,10 @@ Kirigami.ScrollablePage {
                         visible: postHint == "hosted:video"
                         Component.onCompleted: {console.log(`ABC: ${postVideoURL}`)}
                             MediaPlayer {
+                                autoPlay: true
                                     id: mediaplayer
                                   source:postVideoURL
+                                  Component.onCompleted: {pause()}
                                 }
 
                                 VideoOutput {
