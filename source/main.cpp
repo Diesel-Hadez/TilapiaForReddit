@@ -1,5 +1,3 @@
-#include <KLocalizedContext>
-#include <KLocalizedString>
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
@@ -19,7 +17,6 @@ auto main(int argc, char** argv) -> int
   std::cout << message << '\n';
   QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QApplication app(argc, argv);
-  KLocalizedString::setApplicationDomain("tilapia_for_reddit");
   QCoreApplication::setOrganizationName(QStringLiteral("B1TEMY"));
   QCoreApplication::setOrganizationDomain(QStringLiteral("b1te.my"));
   QCoreApplication::setApplicationName(QStringLiteral("Tilapia For Reddit"));
@@ -39,7 +36,6 @@ auto main(int argc, char** argv) -> int
                                "CommentFetcher",
                                CommentFetcher::instance(&engine, nullptr));
 
-  engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
   engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
   if (engine.rootObjects().isEmpty()) {

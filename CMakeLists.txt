@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 include(cmake/prelude.cmake)
+option(ANDROID "Build for Android" OFF)
 
 project(
     tilapia_for_reddit 
@@ -11,7 +12,7 @@ project(
 )
 
 set(KF_MIN_VERSION "5.106.0")
-set(QT_MIN_VERSION "5.12.0")
+set(QT_MIN_VERSION "5.15.8")
 
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
@@ -26,7 +27,7 @@ include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Core Quick Test Gui QuickControls2 Widgets)
-find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Kirigami2 I18n CoreAddons)
+find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Kirigami2)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -57,7 +58,7 @@ set_property(TARGET tilapia_for_reddit_exe PROPERTY OUTPUT_NAME tilapia_for_redd
 
 target_compile_features(tilapia_for_reddit_exe PRIVATE cxx_std_17)
 
-target_link_libraries(tilapia_for_reddit_exe PRIVATE tilapia_for_reddit_lib Qt5::Quick Qt5::Qml Qt5::Gui Qt5::QuickControls2 Qt5::Widgets KF5::Kirigami2 KF5::I18n)
+target_link_libraries(tilapia_for_reddit_exe PRIVATE tilapia_for_reddit_lib Qt5::Quick Qt5::Qml Qt5::Gui Qt5::QuickControls2 Qt5::Widgets KF5::Kirigami2)
 
 # ---- Install rules ----
 
