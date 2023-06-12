@@ -80,6 +80,7 @@ Kirigami.ApplicationWindow {
                 });
             }
         };
+        console.log("URL: " + "http://www.reddit.com" + page + "/top.json?limit=10&t=" + sort_period + "&after=" + last_post_name)
         doc.open("GET", "http://www.reddit.com" + page + "/top.json?limit=10&t=" + sort_period + "&after=" + last_post_name);
         doc.send();
     }
