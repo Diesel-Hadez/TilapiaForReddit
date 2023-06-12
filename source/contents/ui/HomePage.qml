@@ -136,6 +136,7 @@ Kirigami.ScrollablePage {
                                     "postSelfText": postSelfText,
                                     "postHint": postHint,
                                     "postURL": postURL,
+                                    "postVideoURL": postVideoURL,
                                     "postPermalink": postPermalink
                                 });
                             }

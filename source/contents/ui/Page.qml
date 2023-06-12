@@ -1,4 +1,5 @@
 import QtQuick 2.6
+import QtMultimedia 5.6
 import QtQuick.Controls 2.2 as Controls
 import QtQuick.Layouts 1.2
 import org.kde.kirigami 2.4 as Kirigami
@@ -12,6 +13,7 @@ Kirigami.ScrollablePage {
     property string postSubreddit
     property string postHint
     property string postURL
+    property string postVideoURL
     property string postPermalink
     property string postSelfText
 
@@ -61,6 +63,27 @@ Kirigami.ScrollablePage {
                         fillMode: Image.PreserveAspectFit
                         source: postURL
                     }
+                    Item {
+                        width: card.width
+                        height: card.width
+                        visible: postHint == "hosted:video"
+                        Component.onCompleted: {console.log(`ABC: ${postVideoURL}`)}
+                            MediaPlayer {
+                                    id: mediaplayer
+                                  source:postVideoURL
+                                }
+
+                                VideoOutput {
+                                    anchors.fill: parent
+                                    source: mediaplayer
+                                }
+
+                                MouseArea {
+                                    id: playArea
+                                    anchors.fill: parent
+                                    onPressed: mediaplayer.play();
+                                }
+                        }
 
                     Controls.Label {
                         id: postText
