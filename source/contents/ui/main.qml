@@ -73,6 +73,7 @@ Kirigami.ApplicationWindow {
                         "postSelfText": data.data.selftext,
                         "postNumComments": data.data.num_comments,
                         "postAuthor": data.data.author,
+                        "postVideoURL": data.data.post_hint == 'hosted:video' ? data.data.media.reddit_video.fallback_url : "",
                         "postURL": data.data.url_overridden_by_dest,
                         "postPermalink": data.data.permalink,
                         "postHint": data.data.post_hint,
@@ -169,6 +170,7 @@ Kirigami.ApplicationWindow {
                 placeholderText: "/r/python"
                 Kirigami.FormData.label: "Go to: "
                 onEditingFinished: {
+		            current_page = text;
                     goToPage(text);
                     globalDrawer.close();
                 }
