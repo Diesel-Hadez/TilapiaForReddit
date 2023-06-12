@@ -30,7 +30,7 @@ find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Core Quick Test
 find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Kirigami2)
 
 if(ANDROID)
-    find_package(Qt5AndroidExtras ${REQUIRED_QT_VERSION} REQUIRED)
+    # find_package(Qt5AndroidExtras ${REQUIRED_QT_VERSION} REQUIRED)
 endif()
 
 
