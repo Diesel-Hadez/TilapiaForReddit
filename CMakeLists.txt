@@ -66,10 +66,10 @@ target_compile_features(tilapia_for_reddit_exe PRIVATE cxx_std_17)
 if (ANDROID)
     target_link_libraries(tilapia_for_reddit_exe Qt5::AndroidExtras)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/source/android/version.gradle.in ${CMAKE_BINARY_DIR}/version.gradle)
+
+else()
+    target_link_libraries(tilapia_for_reddit_exe PRIVATE tilapia_for_reddit_lib Qt5::Quick Qt5::Qml Qt5::Gui Qt5::QuickControls2 Qt5::Widgets KF5::Kirigami2)
 endif()
-
-
-target_link_libraries(tilapia_for_reddit_exe PRIVATE tilapia_for_reddit_lib Qt5::Quick Qt5::Qml Qt5::Gui Qt5::QuickControls2 Qt5::Widgets KF5::Kirigami2)
 
 # ---- Install rules ----
 
