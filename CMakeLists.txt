@@ -10,7 +10,7 @@ project(
     LANGUAGES CXX
 )
 
-set(KF_MIN_VERSION "5.68.0")
+set(KF_MIN_VERSION "5.106.0")
 set(QT_MIN_VERSION "5.12.0")
 
 include(cmake/project-is-top-level.cmake)

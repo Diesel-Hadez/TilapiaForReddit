@@ -15,26 +15,28 @@ namespace
 void PopulateComments(QJsonArray& comments, CommentItem* parent)
 {
   for (const auto& topLevelComment : comments) {
-    const auto kind = topLevelComment.toObject().value("kind").toString();
-    if (kind.startsWith("more")) {
-      parent->appendChild(
-          new CommentItem({"< More Comments Truncated >"}, parent));
+    const auto kind = topLevelComment.toObject()
+                          .value(QString::fromStdString("kind"))
+                          .toString();
+    if (kind.startsWith(QString::fromStdString("more"))) {
+      parent->appendChild(new CommentItem(
+          {QString::fromStdString("< More Comments Truncated >")}, parent));
       continue;
     }
     const auto message = topLevelComment.toObject()
-                             .value("data")
+                             .value(QString::fromStdString("data"))
                              .toObject()
-                             .value("body")
+                             .value(QString::fromStdString("body"))
                              .toString();
     CommentItem* toAdd = new CommentItem({message}, parent);
     QJsonArray arr = topLevelComment.toObject()
-                         .value("data")
+                         .value(QString::fromStdString("data"))
                          .toObject()
-                         .value("replies")
+                         .value(QString::fromStdString("replies"))
                          .toObject()
-                         .value("data")
+                         .value(QString::fromStdString("data"))
                          .toObject()
-                         .value("children")
+                         .value(QString::fromStdString("children"))
                          .toArray();
 
     PopulateComments(arr, toAdd);
@@ -58,13 +60,14 @@ void CommentTreeModel::LoadFromCommentsURL(QString url)
 
                      QByteArray answer = reply->readAll();
                      QJsonDocument response = QJsonDocument::fromJson(answer);
-                     QJsonArray topLevelComments = response.array()
-                                                       .at(1)
-                                                       .toObject()
-                                                       .value("data")
-                                                       .toObject()
-                                                       .value("children")
-                                                       .toArray();
+                     QJsonArray topLevelComments =
+                         response.array()
+                             .at(1)
+                             .toObject()
+                             .value(QString::fromStdString("data"))
+                             .toObject()
+                             .value(QString::fromStdString("children"))
+                             .toArray();
                      beginResetModel();
 
                      PopulateComments(topLevelComments, m_RootItem);

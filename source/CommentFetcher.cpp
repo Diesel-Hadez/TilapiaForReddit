@@ -12,9 +12,9 @@ void CommentFetcher::GetComments(QString url)
   qDebug() << "Fetching Comments...\n";
   if (ctm)
     delete ctm;
-  ctm = new CommentTreeModel("");
+  ctm = new CommentTreeModel(QString::fromStdString(""));
 
   ctm->LoadFromCommentsURL(url);
-  m_QmlEngine->rootContext()->setContextProperty("_m",
+  m_QmlEngine->rootContext()->setContextProperty(QString::fromStdString("_m"),
                                                  QVariant::fromValue(ctm));
 }

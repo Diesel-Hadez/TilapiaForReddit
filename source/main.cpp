@@ -25,12 +25,13 @@ auto main(int argc, char** argv) -> int
   QCoreApplication::setApplicationName(QStringLiteral("Tilapia For Reddit"));
 
   // Set to Material style.
-  QQuickStyle::setStyle("Material");
+  QQuickStyle::setStyle(QString::fromStdString("Material"));
 
   QQmlApplicationEngine engine;
 
-  CommentTreeModel ctm("");
-  engine.rootContext()->setContextProperty("_m", QVariant::fromValue(&ctm));
+  CommentTreeModel ctm(QString::fromStdString(""));
+  engine.rootContext()->setContextProperty(QString::fromStdString("_m"),
+                                           QVariant::fromValue(&ctm));
 
   qmlRegisterSingletonInstance("b1temy.reddit.fetcher",
                                1,
