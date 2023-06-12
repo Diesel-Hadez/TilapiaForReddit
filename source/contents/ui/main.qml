@@ -58,6 +58,7 @@ Kirigami.ApplicationWindow {
         doc.onreadystatechange = function() {
             if (doc.readyState == XMLHttpRequest.DONE) {
                 addSubToHistory(page);
+                console.log(doc.responseText);
                 let resp = JSON.parse(doc.responseText);
                 console.log(resp.data.children[0].data.title);
                 resp.data.children.forEach((data, index, arr) => {
@@ -84,8 +85,7 @@ Kirigami.ApplicationWindow {
     }
 
     // Window title
-    // i18nc is useful for adding context for translators, also lets strings be changed for different languages
-    title: i18nc("@title:window", "Dirted")
+    title: "Dirted"
     Component.onCompleted: {
         current_page = '/r/all';
         goToPage(current_page);
@@ -141,7 +141,7 @@ Kirigami.ApplicationWindow {
         isMenu: false
         actions: [
             Kirigami.Action {
-                text: i18n("Sort")
+                text: "Sort"
                 onTriggered: {
                     sort_period = "day";
                     selectDialog.open();
@@ -149,7 +149,7 @@ Kirigami.ApplicationWindow {
                 }
             },
             Kirigami.Action {
-                text: i18n("Load More Pages")
+                text: "Load More Pages"
                 onTriggered: {
                     goToPage(current_page, false);
                 }
