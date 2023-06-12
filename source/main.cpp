@@ -15,6 +15,7 @@
 #  include <QApplication>
 #endif
 
+#include <QColor>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QUrl>
