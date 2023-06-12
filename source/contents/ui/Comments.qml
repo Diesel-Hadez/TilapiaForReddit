@@ -1,5 +1,5 @@
 import QtQuick 2.7
-import QtQuick.Controls 2.0 as Controls
+import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.2
 import org.kde.kirigami 2.4 as Kirigami
 import org.kde.kirigamiaddons.treeview 1.0 as TV
