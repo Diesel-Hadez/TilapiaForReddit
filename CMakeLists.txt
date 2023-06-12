@@ -11,7 +11,8 @@ project(
 )
 
 set(KF_MIN_VERSION "5.106.0")
-set(QT_MIN_VERSION "5.15.8")
+set(QT_MIN_VERSION "5.15.0")
+set(REQUIRED_QT_VERSION "5.15.0")
 
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
