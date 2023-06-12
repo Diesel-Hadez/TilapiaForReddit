@@ -42,7 +42,10 @@ Kirigami.ApplicationWindow {
             Kirigami.Action {
                 icon.name: "search"
                 text: "${name}"
-		onTriggered: goToPage("${name}")
+		onTriggered: {
+		    current_page = "${name}";
+		    goToPage("${name}")
+		    }
             }
 	`, globalDrawer, 'SubList.qml'));
             }
