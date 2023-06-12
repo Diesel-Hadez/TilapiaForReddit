@@ -4,6 +4,8 @@
           android:versionName="${versionName}"
           android:versionCode="${versionCode}"
           android:installLocation="auto">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" android:smallScreens="true"/>
     <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="Kirigami Gallery" android:icon="@mipmap/ic_launcher">
