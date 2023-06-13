@@ -91,7 +91,7 @@ Kirigami.ApplicationWindow {
     }
 
     // Window title
-    title: "Dirted"
+    title: "Tilapia for Reddit"
     Component.onCompleted: {
         current_page = '/r/all';
         goToPage(current_page);

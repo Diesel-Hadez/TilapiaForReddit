@@ -9,7 +9,7 @@ Kirigami.ScrollablePage {
 
         property bool censor_nsfw: true
 
-        title: qsTr("Dirted")
+        title: qsTr("Tilapia for Reddit")
         //Close the drawer with the back button
         onBackRequested: {
             if (sheet.sheetOpen) {
