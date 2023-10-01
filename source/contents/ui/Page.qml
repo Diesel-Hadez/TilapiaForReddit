@@ -59,7 +59,8 @@ Kirigami.ScrollablePage {
                         Layout.topMargin: Kirigami.Units.smallSpacing
                         Layout.bottomMargin: Kirigami.Units.smallSpacing
                         Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                        width: card.width
+                        width: parent.width * 0.7
+                        anchors.horizontalCenter: parent.horizontalCenter
                         fillMode: Image.PreserveAspectFit
                         source: postURL
                     }
