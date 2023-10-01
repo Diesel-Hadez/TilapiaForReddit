@@ -9,4 +9,3 @@ cmake-build-*/
 prefix/
 CMakeLists.txt.user
 CMakeUserPresets.json
-source/main.cpp
